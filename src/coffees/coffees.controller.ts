@@ -8,14 +8,20 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CoffeesService } from './coffees.service';
+import { Coffee } from './entities/coffee.entity';
 
 @Controller('coffees')
 export class CoffeesController {
+  // Using built in keywords for privacy and security
+  // Dependency injection resolved by the type.
+  constructor(private readonly coffeesService: CoffeesService) {}
+
   @Get()
-  findAll(@Query() paginationQuery): string {
+  findAll(@Query() paginationQuery): Coffee[] {
     //   Destructuring the query object
     const { limit, offset } = paginationQuery;
-    return `This action returns all coffees. Limit: ${limit} Offset: ${offset}`;
+    return this.coffeesService.findAll();
   }
 
   /**
@@ -26,8 +32,8 @@ export class CoffeesController {
    * @returns A string with the id of the coffee.
    */
   @Get('/:id')
-  findOne(@Param('id') id: string): string {
-    return `This action returns a #${id} coffee`;
+  findOne(@Param('id') id: string): Coffee {
+    return this.coffeesService.findOne(id);
   }
 
   /**
@@ -37,8 +43,8 @@ export class CoffeesController {
    * @description This method is used to create a coffee.
    */
   @Post()
-  create(@Body('name') name: string): string {
-    return `This action adds a new coffee: ${name}`;
+  create(@Body() body): Coffee {
+    return this.coffeesService.create(body);
   }
 
   /**
@@ -60,8 +66,8 @@ export class CoffeesController {
    */
   @Patch('/:id')
   //   Param and body decorators are required in a PATCH method
-  update(@Param('id') id: string, @Body('name') name: string): string {
-    return `This action updates a #${id} coffee to ${name}`;
+  update(@Param('id') id: string, @Body() body): Coffee {
+    return this.coffeesService.update(id, body);
   }
 
   /**
@@ -83,7 +89,7 @@ export class CoffeesController {
    *
    */
   @Delete('/:id')
-  remove(@Param('id') id: string): string {
-    return `This action removes a #${id} coffee`;
+  remove(@Param('id') id: string): Coffee {
+    return this.coffeesService.delete(id);
   }
 }
