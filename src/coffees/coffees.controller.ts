@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -11,7 +11,7 @@ export class CoffeesController {
    * @name findCoffeeByID
    * @description
    * This method is used to find a coffee by its ID.
-   * @param params General Parameters for the request.
+   * @param {string} id
    * @returns A string with the id of the coffee.
    */
   @Get('/:id')
@@ -21,12 +21,13 @@ export class CoffeesController {
 
   /**
    * @name createCoffee
-   * @param body General Parameters for the request.
+   * @param {string} name
    * @returns A string with the id of the coffee and the name of the coffee.
    * @description This method is used to create a coffee.
    */
   @Post()
-  create(@Body() body: any): string {
-    return `This action adds a new coffee: ${body.name}`;
+  @HttpCode(HttpStatus.GONE)
+  create(@Body('name') name: string): string {
+    return `This action adds a new coffee: ${name}`;
   }
 }
