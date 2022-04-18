@@ -46,7 +46,7 @@ export class CoffeesService {
    * "flavors": ["Chocolate", "Vanilla"]
    * },
    */
-  findAll(): Coffee[] {
+  findAll() {
     return this.coffees;
   }
 
@@ -64,8 +64,8 @@ export class CoffeesService {
    * "flavors": ["Chocolate", "Vanilla"]
    * }
    */
-  findOne(id: string): Coffee {
-    return this.coffees.find((coffee) => coffee.id === Number(id));
+  findOne(id: string) {
+    return this.coffees.find((coffee) => coffee.id === + id );
   }
 
   /**
@@ -88,9 +88,8 @@ export class CoffeesService {
    * "flavors": ["Chocolate", "Vanilla"]
    * }
    */
-  create(coffee: Coffee): Coffee {
-    this.coffees.push(coffee);
-    return coffee;
+  create(createCoffeeDto: any) {
+    this.coffees.push(createCoffeeDto);
   }
 
   /**
@@ -110,10 +109,14 @@ export class CoffeesService {
    * "name": "Cappuccino"
    * }
    */
-  update(id: string, coffee: Coffee): Coffee {
-    const index = this.coffees.findIndex((c) => c.id === Number(id));
-    this.coffees[index] = coffee;
-    return coffee;
+  update(id: string, updateCoffeeDto: any) {
+    const existingCoffee = this.findOne(id);
+    if (existingCoffee) {
+      // update existing coffee
+      existingCoffee.name = updateCoffeeDto.name;
+      existingCoffee.brand = updateCoffeeDto.brand;
+      existingCoffee.flavors = updateCoffeeDto.flavors;
+    }
   }
 
   /**
