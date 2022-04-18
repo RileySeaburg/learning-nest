@@ -34,8 +34,9 @@ export class CoffeesController {
    * @returns A string with the id of the coffee.
    */
   @Get('/:id')
-  findOne(@Param('id') id: string): Coffee {
-    return this.coffeesService.findOne(id);
+  findOne(@Param('id') id: number): Coffee {
+    console.log(typeof id)
+    return this.coffeesService.findOne(''+id);
   }
 
   /**
@@ -46,6 +47,7 @@ export class CoffeesController {
    */
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
+    console.log(createCoffeeDto instanceof CreateCoffeeDto);
     return this.coffeesService.create(createCoffeeDto);
   }
 
@@ -92,6 +94,7 @@ export class CoffeesController {
    */
   @Delete('/:id')
   remove(@Param('id') id: string): Coffee {
+ 
     return this.coffeesService.delete(id);
   }
 }
