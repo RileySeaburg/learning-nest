@@ -9,8 +9,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
-import { CreateCoffeeDto } from './dto/create-coffee.dto';
-import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 
 @Controller('coffees')
@@ -45,8 +43,8 @@ export class CoffeesController {
    * @description This method is used to create a coffee.
    */
   @Post()
-  create(@Body() createCoffeeDto: CreateCoffeeDto) {
-    return this.coffeesService.create(createCoffeeDto);
+  create(@Body() body): Coffee {
+    return this.coffeesService.create(body);
   }
 
   /**
@@ -68,8 +66,8 @@ export class CoffeesController {
    */
   @Patch('/:id')
   //   Param and body decorators are required in a PATCH method
-  update(@Param('id') id: string, @Body() updateCoffeeDto): UpdateCoffeeDto {
-    return this.coffeesService.update(id, updateCoffeeDto);
+  update(@Param('id') id: string, @Body() body): Coffee {
+    return this.coffeesService.update(id, body);
   }
 
   /**
@@ -91,7 +89,7 @@ export class CoffeesController {
    *
    */
   @Delete('/:id')
-  remove(@Param('id') id: string): CreateCoffeeDto {
+  remove(@Param('id') id: string): Coffee {
     return this.coffeesService.delete(id);
   }
 }
